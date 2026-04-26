@@ -2,11 +2,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from collections import Counter
 
-from gruzdata import sessions, train_test_split
-from metrics import hit_at_k
-from mod import build_graph, top_popular, recommend
+from src.gruzdata import sessions, train_test_split
+from src.metrics import hit_at_k
+from src.mod import build_graph, top_popular, recommend
 import os
-os.makedirs("../images", exist_ok=True)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+images_dir = os.path.join(current_dir, ".", "images")
+os.makedirs(images_dir, exist_ok=True)
 
 def eda(ss):
     items = [x for s in ss for x in s]
@@ -20,7 +22,7 @@ def eda(ss):
     plt.figure(figsize=(6,4))
     plt.hist(lens, bins=15)
     plt.title("Session length")
-    plt.savefig("../images/eda_len.png")
+    plt.savefig("images/eda_len.png")
     plt.close()
 
     vals = sorted(freq.values(), reverse=True)
@@ -28,7 +30,7 @@ def eda(ss):
     plt.plot(vals)
     plt.yscale("log")
     plt.title("Item popularity")
-    plt.savefig("../images/eda_pop.png")
+    plt.savefig("images/eda_pop.png")
     plt.close()
 
 def main():
@@ -54,8 +56,8 @@ def main():
     plt.figure(figsize=(5,4))
     plt.bar(["model", "baseline"], [score_model, score_base])
     plt.title("Hit@10 comparison")
-    plt.savefig("../images/results.png")
+    plt.savefig("images/results.png")
     plt.close()
 
 if __name__ == "__main__":
-    main()
+    main() 
